@@ -1,4 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ──────────────────────────────────────────────────
+    // -1. LOADING SCREEN LOGIC
+    // ──────────────────────────────────────────────────
+    const loaderWrapper = document.getElementById('loader-wrapper');
+    const loaderBar = document.getElementById('loader-bar');
+    const loaderPercentage = document.getElementById('loader-percentage');
+    let progress = 0;
+    const minLoadingTime = 3000; // 3 segundos mínimo
+    const startTime = Date.now();
+
+    const updateLoader = () => {
+        const timePassed = Date.now() - startTime;
+        const timeProgress = (timePassed / minLoadingTime) * 100;
+        
+        // Simulação de progresso (metade tempo, metade carga real se possível, mas aqui simulamos suave)
+        progress = Math.min(timeProgress, 100);
+        
+        if (loaderBar) loaderBar.style.width = `${progress}%`;
+        if (loaderPercentage) loaderPercentage.textContent = `${Math.floor(progress)}%`;
+
+        if (progress < 100) {
+            requestAnimationFrame(updateLoader);
+        } else {
+            // Garantir que carregou tudo e deu o tempo mínimo
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loaderWrapper.classList.add('fade-out');
+                }, 200);
+            });
+            // Caso já tenha carregado antes do tempo
+            if (document.readyState === 'complete') {
+                setTimeout(() => {
+                    loaderWrapper.classList.add('fade-out');
+                }, 200);
+            }
+        }
+    };
+
+    if (loaderWrapper) {
+        requestAnimationFrame(updateLoader);
+    }
+
     // Initialize Splitting for VHS text effects
     if (typeof Splitting === 'function') {
         Splitting();
