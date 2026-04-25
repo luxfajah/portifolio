@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Redirecionamento Desktop: Links -> Index
+        if (window.innerWidth > 768 && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <title>Lux Fajah | Branding & Direção de Marca</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/links.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="grain-overlay"></div>
+
+    <!-- VHS Glitch Background / Wallpaper -->
+    <div class="vhs-wallpaper">
+        <div class="vhs-vignette"></div>
+        <div class="scanlines"></div>
+        <div class="noise"></div>
+        <div class="noise noise-moving"></div>
+    </div>
+
+    <!-- VHS UI Layer (Navigation) -->
+    <div class="intro-wrap">
+        <a href="index.html" class="play" data-splitting>luxfajah.com</a>
+        <a href="index.html#contact" class="time">contato</a>
+        <div class="recordSpeed">SLP 04:00:20</div>
+    </div>
+
+    <div class="links-container">
+        
+        <!-- HEADER -->
+        <header class="links-header">
+            <div class="profile-info">
+                <span class="profile-subtitle">Branding & direção de marca</span>
+                <h1 class="profile-name">Lux Fajah</h1>
+            </div>
+            <div class="profile-avatar">
+                <img src="cadb.gif" alt="Lux Fajah" id="ambient-profile" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop'">
+            </div>
+        </header>
+
+        <main class="links-main">
+            
+            <!-- INTRO -->
+            <section class="links-intro">
+                <h2 class="difference-text">Eu desenho marcas que não cabem em moldes.</h2>
+                <p>Estratégia, identidade e construção de presença — tudo pensado pra sustentar crescimento real.</p>
+                <p>Esse é um espaço de acesso direto ao meu trabalho, processos e formas de construir junto.</p>
+                
+                <div class="arrow-divider">↓</div>
+                <h3 class="section-title-small">Explore</h3>
+            </section>
+
+            <!-- PRIMARY CARDS -->
+            <section class="links-grid">
+                <a href="https://behance.net" target="_blank" class="link-card card-behance">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <h3>PORTFÓLIO (BEHANCE)</h3>
+                        <p>Projetos que atravessam estética e estratégia.</p>
+                        <span class="card-link">Explorar →</span>
+                    </div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="link-card card-instagram">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <h3>INSTAGRAM</h3>
+                        <p>Bastidores, processo e pensamento em construção.</p>
+                        <span class="card-link">Ver agora →</span>
+                    </div>
+                </a>
+            </section>
+
+            <div class="arrow-divider">↓</div>
+
+            <!-- INTERMEDIATE SECTION -->
+            <section class="links-cta">
+                <h2 class="difference-text">Sua marca não precisa de tudo. <span class="blur-highlight blue">Precisa do que sustenta.</span></h2>
+                <p>Aqui você organiza sua comunicação, estrutura sua presença e constrói uma marca pronta pra crescer — sem improviso.</p>
+            </section>
+
+            <div class="arrow-divider">↓</div>
+
+            <!-- USEFUL LINKS -->
+            <section class="useful-links">
+                <h2 class="difference-text">Vamos criar?</h2>
+                <div class="pills-stack">
+                    <a href="https://wa.me/seunumero" class="large-pill">
+                        <div class="pill-text">
+                            <strong>WhatsApp</strong>
+                            <span>Fale direto comigo</span>
+                        </div>
+                        <div class="pill-icon">💬</div>
+                    </a>
+                    <a href="#" class="large-pill">
+                        <div class="pill-text">
+                            <strong>Pré-briefing</strong>
+                            <span>Se você já sabe o que quer construir</span>
+                        </div>
+                        <div class="pill-icon">📄</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- SOCIAL FOOTER -->
+            <footer class="links-footer">
+                <div class="social-icons">
+                    <a href="#" class="social-icon">IG</a>
+                    <a href="#" class="social-icon">WA</a>
+                    <a href="#" class="social-icon">LI</a>
+                    <a href="#" class="social-icon">BE</a>
+                </div>
+                <div class="credits">
+                    <a href="index.html" class="nav-pill">luxfajah.com</a>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+    <!-- VHS Toggle Button -->
+    <button id="vhs-toggle" class="vhs-toggle-btn" title="Desligar Wallpaper">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2V6M12 18V22M6 12H2M22 12H18M19.07 4.93L16.24 7.76M7.76 16.24L4.93 19.07M19.07 19.07L16.24 16.24M7.76 7.76L4.93 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>

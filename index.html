@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Redirecionamento Mobile: Index -> Links
+        if (window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            window.location.href = 'links.html';
+        }
+    </script>
+    <title>Lux Fajah | Designer de Branding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Caveat:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Splitting.js for character animation -->
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css" />
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css" />
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="custom-cursor">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Bold rounded arrow cursor — matches the second image -->
+            <path d="M5 3 L27 14 L17 17 L14 27 Z" fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+    </div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <!-- Microcopy -->
+    <div class="microcopy mc-1">nada aqui é estático</div>
+    <div class="microcopy mc-2">percorra</div>
+    <div class="microcopy mc-3">isso é intencional</div>
+    <div class="microcopy mc-4">construído, não decorado</div>
+
+    <!-- VHS Glitch Background / Wallpaper -->
+    <div class="vhs-wallpaper">
+        <div class="vhs-vignette"></div>
+        <div class="scanlines"></div>
+        <div class="noise"></div>
+        <div class="noise noise-moving"></div>
+    </div>
+
+    <!-- VHS UI Layer (Navigation) -->
+    <div class="intro-wrap">
+        <a href="#" class="play" data-splitting>luxfajah.com</a>
+        <a href="#contact" class="time">contato</a>
+        <div class="recordSpeed">SLP 04:00:20</div>
+    </div>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero-section" id="home">
+            <div class="hero-text-container parallax" data-speed="0.15">
+                <div class="glitch-wrapper">
+                    <div class="glitch-scanline"></div>
+                    <h1 class="hero-title glitch" data-text="lux fajah">
+                        <span>lux fajah</span>
+                    </h1>
+                </div>
+                <p class="hero-subtitle">branding & design</p>
+            </div>
+            <div class="scroll-indicator">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 13L12 18L17 13M7 6L12 11L17 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </section>
+
+        <section class="intro-section">
+            <div class="intro-text parallax" data-speed="0.08">
+                <p>Hey.</p>
+                <p>Eu trabalho com marca,<br>mas não desse jeito organizado que todo mundo espera.</p>
+                <p>Eu desenho marcas que <span class="blur-highlight red">não se comportam.</span></p>
+                <p>Não são fixas. Não são neutras.<br>E definitivamente não existem pra caber em <span class="blur-highlight blue">expectativa.</span></p>
+                <p>Meu trabalho passa por <span class="blur-highlight purple">estrutura e distorção</span>,<br>estratégia e instinto,<br>controle e ruptura.</p>
+                <p>Tem lógica,<br>mas também tem espaço pra quebrar.</p>
+                <p>Cada projeto vira um <span class="blur-highlight orange">sistema.</span><br><small style="font-size:0.5em; opacity:0.6; font-weight:500;">Não pra ficar bonito. Pra sustentar.</small></p>
+            </div>
+        </section>
+
+        <!-- SELECTED WORKS -->
+        <section class="works-section">
+            <div class="works-header parallax" data-speed="0.1">
+                <h2>Projetos selecionados</h2>
+                <p class="works-subtitle">(recortes, não resumo)</p>
+            </div>
+
+            <div class="works-list">
+                <!-- 9 project titles -->
+                <div class="works-text-stack parallax" data-speed="0.15">
+                    <div class="work-title">REBELDIA</div>
+                    <div class="work-title">ESTRUTURA</div>
+                    <div class="work-title">ELEVAÇÃO</div>
+                    <div class="work-title">DISTORÇÃO</div>
+                    <div class="work-title">SIMETRIA</div>
+                </div>
+
+                <!-- 9 scattered thumbnails distributed across the section -->
+                <div class="thumbnail-scatter">
+                    <!-- Hand-drawn Note -->
+                    <div class="interaction-hint parallax" data-speed="0.2" data-rotate="-3">
+                        <svg class="hint-arrow" width="80" height="80" viewBox="0 0 100 100">
+                            <!-- Seta apontando para a esquerda/baixo -->
+                            <path d="M85,50 C 60,30 40,20 15,25 M 35,15 L 15,25 L 30,40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p class="hint-text">O caos é intencional.<br>Pode clicar e arrastar<br>essas imagens pra onde quiser.</p>
+                    </div>
+
+                    <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-1 parallax" data-speed="0.25" data-rotate="-2" alt="fragmentos de projeto" data-project="rebeldia">
+                    <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-2 parallax" data-speed="0.4" data-rotate="4" alt="sistemas visuais" data-project="estrutura">
+                    <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-3 parallax" data-speed="0.1" data-rotate="-5" alt="construções de marca" data-project="elevacao">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-4 parallax" data-speed="0.3" data-rotate="2" alt="estruturas em processo" data-project="distorcao">
+                    <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-5 parallax" data-speed="0.2" data-rotate="-3" alt="experimentos de identidade" data-project="simetria">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-6 parallax" data-speed="0.35" data-rotate="6" alt="identidade visual" data-project="fragmento">
+                    <img src="https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-7 parallax" data-speed="0.15" data-rotate="-4" alt="tensão gráfica" data-project="tensao">
+                    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-8 parallax" data-speed="0.45" data-rotate="3" alt="colapso de forma" data-project="colapso">
+                    <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=400&auto=format&fit=crop" class="scatter-thumb t-9 parallax" data-speed="0.22" data-rotate="-6" alt="origem de marca" data-project="origem">
+                </div>
+            </div>
+        </section>
+
+        <!-- BRAND MANUAL VIDEO -->
+        <section class="video-section">
+            <div class="works-header parallax" data-speed="0.1">
+                <h2>Quer ver como eu entrego um manual de marca?</h2>
+                <p class="works-subtitle">(versão não aprovada para biojoias)</p>
+            </div>
+            <div class="video-box parallax" data-speed="0.1">
+                <video src="videos/manual.mov" autoplay loop muted playsinline disablePictureInPicture></video>
+            </div>
+        </section>
+
+        <!-- SOCIAL MEDIA -->
+        <section class="social-section">
+            <div class="social-header parallax" data-speed="0.08">
+                <h2 class="social-title">Social media</h2>
+                <p class="social-subtitle">(processo exposto)</p>
+                <p class="social-description">
+                    Nem tudo aqui é final.<br><br>
+                    Tem coisa que é teste,<br>
+                    tem coisa que é ideia ainda torta,<br>
+                    tem coisa que só precisava existir um pouco<br>
+                    antes de virar outra coisa.<br><br>
+                    É aqui que as coisas começam a fazer sentido,<br>
+                    <em>ou não.</em>
+                </p>
+            </div>
+
+            <!-- 20 cards in scatter spread using all local images -->
+            <div class="chaotic-collage">
+                <img src="social media/Dia das Mulheres.jpg" class="collage-card c-1 parallax" data-speed="0.12" data-rotate="-30" alt="Social">
+                <img src="social media/Post 1 -  2.png" class="collage-card c-2 parallax" data-speed="0.08" data-rotate="-20" alt="Social">
+                <img src="social media/Post 1 - 1.png" class="collage-card c-3 parallax" data-speed="0.15" data-rotate="-10" alt="Social">
+                <img src="social media/Post 1 - 20.webp" class="collage-card c-4 parallax" data-speed="0.05" data-rotate="0" alt="Social">
+                <img src="social media/Post 1-1.jpg" class="collage-card c-5 parallax" data-speed="0.11" data-rotate="10" alt="Social">
+                <img src="social media/Post 2 - 1.webp" class="collage-card c-6 parallax" data-speed="0.09" data-rotate="20" alt="Social">
+                <img src="social media/Post 2 - 20.webp" class="collage-card c-7 parallax" data-speed="0.14" data-rotate="-15" alt="Social">
+                <img src="social media/Post 2 - 4.jpg" class="collage-card c-8 parallax" data-speed="0.06" data-rotate="-35" alt="Social">
+                <img src="social media/Post 2 - 5.png" class="collage-card c-9 parallax" data-speed="0.18" data-rotate="15" alt="Social">
+                <img src="social media/Post 3 - 1.jpg" class="collage-card c-10 parallax" data-speed="0.07" data-rotate="30" alt="Social">
+                <img src="social media/Post 3.webp" class="collage-card c-11 parallax" data-speed="0.16" data-rotate="-25" alt="Social">
+                <img src="social media/Post 4.webp" class="collage-card c-12 parallax" data-speed="0.10" data-rotate="25" alt="Social">
+                <img src="social media/Post 5 - 1.webp" class="collage-card c-13 parallax" data-speed="0.13" data-rotate="5" alt="Social">
+                <img src="social media/Post 5 - 4.webp" class="collage-card c-14 parallax" data-speed="0.06" data-rotate="-5" alt="Social">
+                <img src="social media/Post 5.png" class="collage-card c-15 parallax" data-speed="0.11" data-rotate="-42" alt="Social">
+                <img src="social media/Post 6.jpg" class="collage-card c-16 parallax" data-speed="0.14" data-rotate="42" alt="Social">
+                <img src="social media/Prancheta 10.jpg" class="collage-card c-17 parallax" data-speed="0.08" data-rotate="12" alt="Social">
+                <img src="social media/Prancheta 40.jpg" class="collage-card c-18 parallax" data-speed="0.17" data-rotate="-12" alt="Social">
+                <img src="social media/Prancheta 8-100.jpg" class="collage-card c-19 parallax" data-speed="0.09" data-rotate="-22" alt="Social">
+                <img src="social media/Prancheta 9-100.jpg" class="collage-card c-20 parallax" data-speed="0.15" data-rotate="22" alt="Social">
+            </div>
+        </section>
+
+        <!-- APPROVAL SYSTEM VIDEO -->
+        <section class="video-section">
+            <div class="works-header parallax" data-speed="0.1">
+                <h2>Pra que um milhão de reuniões?</h2>
+                <p class="works-subtitle">(sistema de aprovação sem custo adicional)</p>
+            </div>
+            <div class="video-box parallax" data-speed="0.1">
+                <video src="videos/sistema.mov" autoplay loop muted playsinline disablePictureInPicture></video>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="contact-section" id="contact">
+            <div class="parallax" data-speed="0.05">
+                <h2 class="contact-title">Fique à vontade pra entrar em contato</h2>
+                <div class="contact-subtitle">Se fizer sentido, a gente constrói algo junto.</div>
+                <div class="contact-pills">
+                    <a href="#" class="pill">instagram</a>
+                    <a href="#" class="pill">telegram</a>
+                    <a href="#" class="pill">email</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Project Viewer -->
+    <div id="projectViewer">
+        <div class="pv-header">
+            <div class="pv-title-box">
+                <h2 id="pvTitle">Projeto</h2>
+                <button class="pv-back" onclick="closeProject()">
+                    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 8 L12 16 L20 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="pv-content" id="pvContent">
+            <!-- Dynamically populated -->
+        </div>
+
+        <div class="pv-footer">
+            <button class="pv-back-large" onclick="closeProject()">voltar ao início</button>
+        </div>
+    </div>
+
+    <!-- Legacy Modal (Keeping for social media cards if needed, or I can unify them too) -->
+    <div class="modal-overlay" id="image-modal">
+        <button class="modal-close">&times;</button>
+        <img src="" alt="Expanded Image" id="modal-image">
+    </div>
+
+
+    <!-- VHS Toggle Button -->
+    <button id="vhs-toggle" class="vhs-toggle-btn" title="Desligar Wallpaper">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2V6M12 18V22M6 12H2M22 12H18M19.07 4.93L16.24 7.76M7.76 16.24L4.93 19.07M19.07 19.07L16.24 16.24M7.76 7.76L4.93 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
+

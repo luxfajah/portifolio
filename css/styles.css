@@ -1,0 +1,1299 @@
+html { font-size: 75%; }
+:root {
+    --bg-color: #F8F8F7;
+    --text-color: #111111;
+    --blur-red: rgba(255, 50, 50, 0.4);
+    --blur-blue: rgba(50, 100, 255, 0.4);
+    --blur-purple: rgba(150, 50, 255, 0.4);
+    --blur-orange: rgba(255, 150, 50, 0.4);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', -apple-system, sans-serif;
+    overflow-x: hidden;
+    cursor: none; /* hide default cursor */
+}
+
+/* ── Custom Cursor ── */
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 21px;
+    height: 21px;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-2px, -1.50px);
+    will-change: transform;
+    transition: opacity 0.2s ease;
+    mix-blend-mode: difference;
+}
+
+.cursor svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: transform 0.15s ease;
+}
+
+.cursor.clicking svg {
+    transform: scale(0.8);
+}
+
+/* Cursor trail dot */
+.cursor-dot {
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease, opacity 0.2s ease;
+    mix-blend-mode: difference;
+    opacity: 0;
+}
+
+h1, h2, h3, p { margin: 0; word-break: break-word; }
+
+/* ── Ambient Background ── */
+.ambient-bg-container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#ambient-profile {
+    width: clamp(150px, 26.25vw, 255px);
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 27px;
+    transform-origin: center center;
+    will-change: transform, filter, opacity;
+}
+
+/* ── Microcopy ── */
+.microcopy {
+    position: fixed;
+    font-size: 1.08rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.8;
+    color: #fff;
+    pointer-events: none;
+    font-weight: 600;
+    z-index: 2000;
+}
+.mc-1 { top: 33.75vh; left: 1.5rem; transform: rotate(-90deg) translateX(-50%); }
+.mc-2 { top: 1.8rem; left: 50%; transform: translateX(-50%); }
+.mc-3 { top: 33.75vh; right: 1.5rem; transform: rotate(90deg) translateX(50%); }
+.mc-4 { bottom: 3rem; left: 50%; transform: translateX(-50%); }
+
+/* ── Nav ── */
+.nav-pill {
+    position: fixed;
+    top: 1.4rem;
+    z-index: 1000;
+    font-size: 1.78rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-decoration: none;
+    mix-blend-mode: difference;
+    transition: opacity 0.3s ease;
+}
+
+.nav-left { left: 2rem; }
+.nav-right { right: 2rem; }
+
+.nav-pill:hover { opacity: 0.5; }
+
+/* ── Main ── */
+main {
+    position: relative;
+    /* sem z-index: não cria stacking context, deixa blend modes filhos
+       compositar diretamente contra o gif fixo no background */
+}
+
+/* ── BLEND MODE GLOBAL: todos os textos invertem contra o gif de fundo ── */
+.hero-text-container,
+.intro-text,
+.works-header,
+.works-text-stack,
+.social-header,
+.microcopy,
+.contact-section,
+.pill,
+.work-title,
+.social-description,
+.hero-subtitle {
+    color: #ffffff;
+    mix-blend-mode: difference;
+}
+
+/* ── HERO ── */
+.hero-section {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+}
+
+.hero-text-container {
+    text-align: center;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-title {
+    font-size: clamp(3.27rem, 15vw, 15rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    text-transform: lowercase;
+}
+
+.hero-subtitle {
+    position: absolute;
+    top: 50%;
+    /* Ajusta para ficar logo abaixo do GIF, cuja metade da altura é clamp(75px, 13.12vw, 127.50px) */
+    margin-top: clamp(120px, 20vw, 180px);
+    font-size: clamp(1.50rem, 5.24vw, 3.00rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    opacity: 0.85;
+}
+
+/* Aviso Rabiscado / Hint */
+.interaction-hint {
+    position: absolute;
+    top: 2%; /* Subiu um pouco */
+    left: 19.50vw;
+    width: clamp(185px, 22vw, 275px); /* Aumentado em 25% */
+    text-align: left;
+    pointer-events: none;
+    z-index: 20;
+    font-family: 'Caveat', cursive;
+    color: #FFD700 !important; /* Amarelo */
+    mix-blend-mode: difference;
+}
+
+.hint-text {
+    font-size: clamp(1.3rem, 1.7vw, 1.8rem); /* Aumentado em 25% */
+    line-height: 1.1;
+    opacity: 0.9;
+}
+
+.hint-arrow {
+    position: absolute;
+    top: 7.50px;
+    left: -45px;
+    width: 41.25px;
+    height: 41.25px;
+    transform: rotate(5deg);
+    opacity: 0.7;
+}
+
+/* ── INTRO ── */
+.intro-section {
+    padding: 9vw 4.50vw 9vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.intro-text {
+    font-size: clamp(1.35rem, 4.12vw, 4.88rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    max-width: 66vw;
+}
+
+.intro-text p { margin-bottom: 2.25vw; }
+.intro-text p:last-child { margin-bottom: 0; }
+
+/* Blur Highlights */
+.blur-highlight {
+    position: relative;
+    display: inline-block;
+    color: #fff !important;
+}
+
+.blur-highlight::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 115%; height: 115%;
+    filter: blur(18px);
+    z-index: -1;
+    border-radius: 50%;
+    opacity: 0.75;
+    mix-blend-mode: difference;
+}
+
+.blur-highlight.red::before    { background: var(--blur-red); }
+.blur-highlight.blue::before   { background: var(--blur-blue); }
+.blur-highlight.purple::before { background: var(--blur-purple); }
+.blur-highlight.orange::before { background: var(--blur-orange); }
+
+/* ── SELECTED WORKS ── */
+.works-section {
+    padding: 6.75vw 0 9vw;
+    position: relative;
+    /* height set by JS based on content */
+    min-height: 90vh; /* 5 titles + breathing room for scattered thumbs */
+    overflow: visible;
+}
+
+.works-header {
+    padding: 0 4.50vw;
+    margin-bottom: 10.50vw;
+    text-align: center;
+}
+
+.works-header h2 {
+    font-size: clamp(1.68rem, 4.22vw, 3.75rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+}
+
+.works-subtitle {
+    font-size: clamp(1.36rem, 2.70vw, 2.10rem);
+    opacity: 0.4;
+    font-weight: 500;
+    margin-top: 0.30rem;
+}
+
+.works-list {
+    position: relative;
+    width: 100%;
+}
+
+.works-text-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+    pointer-events: none;
+    padding: 0 0.75rem;
+    gap: 0.30rem;
+}
+
+.work-title {
+    font-size: clamp(1.50rem, 7.12vw, 8.25rem);
+    font-weight: 900;
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Scattered thumbnails */
+.thumbnail-scatter {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.scatter-thumb {
+    position: absolute;
+    width: clamp(75px, 12.75vw, 195px);
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    border-radius: 7.50px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    cursor: grab;
+    pointer-events: auto;
+}
+
+.scatter-thumb:active { cursor: grabbing; }
+
+/* Posições definidas manualmente pelo usuário */
+.t-1 { left: 5.6%;  top: -1.2%; }
+.t-2 { left: 61.3%; top: 34.4%; }
+.t-3 { left: 7.3%;  top: 24.3%; }
+.t-4 { left: 80.5%; top: 150.9%; }
+.t-5 { left: 25.3%; top: 82.2%; }
+.t-6 { left: 61.2%; top: 147.4%; }
+.t-7 { left: 18.9%; top: 1.9%; }
+.t-8 { left: 73.7%; top: 119.1%; }
+.t-9 { left: 85.4%; top: 34.9%; }
+
+/* ── SOCIAL MEDIA ── */
+.social-section {
+    position: relative;
+    min-height: 85vh;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-header {
+    text-align: center;
+    padding: 0 4.50vw;
+    position: relative;
+    z-index: 10;
+    pointer-events: none; /* Deixa o clique vazar para os cards atrás do texto */
+}
+
+.social-title {
+    font-size: clamp(2.35rem, 8.43vw, 8.43rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+}
+
+.social-subtitle {
+    font-size: clamp(1.80rem, 5.24vw, 4.50rem);
+    font-weight: 500;
+    opacity: 0.4;
+    margin-top: 0.3rem;
+    letter-spacing: -0.04em;
+}
+
+.social-description {
+    font-size: clamp(1.19rem, 2.10vw, 1.72rem);
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 600px;
+    margin: 2rem auto 0;
+    opacity: 0.85;
+}
+
+/* Dense fan/deck spread — all cards pivot from shared center-bottom point */
+.chaotic-collage {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible; 
+    pointer-events: none; /* container ignora cliques, apenas as imagens clicam */
+}
+
+.collage-card {
+    position: absolute;
+    pointer-events: auto; /* reativa cliques nos cards */
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.22);
+    cursor: grab;
+    transform-origin: center center;
+}
+
+.collage-card:active { cursor: grabbing; }
+
+/* Scatter spread around the central text for 20 cards */
+.c-1  { width: clamp(105px, 15vw, 210px);     aspect-ratio: 4/5; left: 13.1%; top: -4.4%; }
+.c-2  { width: clamp(90px, 13.50vw, 187px);   aspect-ratio: 4/5; left: 76.3%; top: 1.7%; }
+.c-3  { width: clamp(120px, 16.50vw, 240px);  aspect-ratio: 4/5; left: 6.0%;  top: 24.0%; }
+.c-4  { width: clamp(105px, 15vw, 225px);     aspect-ratio: 4/5; left: 86.1%; top: 40.0%; }
+.c-5  { width: clamp(97px, 14.25vw, 195px);   aspect-ratio: 4/5; left: 12.2%; top: 48.7%; }
+.c-6  { width: clamp(112px, 15.75vw, 217px);  aspect-ratio: 4/5; left: 33.8%; top: 72.0%; }
+.c-7  { width: clamp(90px, 13.50vw, 187px);   aspect-ratio: 4/5; left: 60.6%; top: 51.6%; }
+.c-8  { width: clamp(105px, 15vw, 210px);     aspect-ratio: 4/5; left: 69.3%; top: 63.8%; }
+.c-9  { width: clamp(82px, 12vw, 172px);      aspect-ratio: 4/5; left: 42.0%; top: 25.9%; }
+.c-10 { width: clamp(90px, 13.50vw, 180px);   aspect-ratio: 4/5; left: 55.6%; top: 62.2%; }
+.c-11 { width: clamp(75px, 11.25vw, 150px);   aspect-ratio: 4/5; left: 25.9%; top: 52.0%; }
+.c-12 { width: clamp(97px, 14.25vw, 195px);   aspect-ratio: 4/5; left: 64.8%; top: -4.3%; }
+.c-13 { width: clamp(90px, 13.50vw, 180px);   aspect-ratio: 4/5; left: 31.0%; top: 6.6%; }
+.c-14 { width: clamp(82px, 12.75vw, 165px);   aspect-ratio: 4/5; left: 56.5%; top: -21.7%; }
+.c-15 { width: clamp(97px, 14.25vw, 195px);   aspect-ratio: 4/5; left: -0.3%; top: 68.1%; }
+.c-16 { width: clamp(93px, 13.50vw, 187px);   aspect-ratio: 4/5; left: 83.1%; top: 39.5%; }
+.c-17 { width: clamp(105px, 15vw, 210px);     aspect-ratio: 4/5; left: 18.7%; top: 68.1%; }
+.c-18 { width: clamp(101px, 14.25vw, 202px);  aspect-ratio: 4/5; left: 71.6%; top: 63.5%; }
+.c-19 { width: clamp(86px, 12.75vw, 172px);   aspect-ratio: 4/5; left: 0.3%;  top: 27.8%; }
+.c-20 { width: clamp(93px, 13.50vw, 187px);   aspect-ratio: 4/5; left: 84.3%; top: 17.2%; }
+
+/* ── VIDEO SECTIONS ── */
+.video-section {
+    padding: 9vw 4.5vw; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    /* Remover z-index para não quebrar o mix-blend-mode: difference do cabeçalho */
+}
+
+/* Push the first video section up to counteract the sum of paddings from both sections */
+.works-section + .video-section {
+    margin-top: -15vw;
+    margin-bottom: 12.5vw; /* Aumentar drasticamente o espaço entre a sessão 4 e 5 */
+}
+
+/* Reduce header margin only inside video sections */
+.video-section .works-header {
+    margin-bottom: 4vw;
+    position: relative;
+    z-index: 2000; /* Garante que o texto fique sempre acima das imagens arrastadas */
+    mix-blend-mode: difference; /* Força a inversão contra qualquer coisa abaixo dele */
+}
+
+.video-box {
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    background: #111;
+    aspect-ratio: 16/9;
+}
+
+.video-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none; /* impede clique, pause, menu de contexto */
+    user-select: none;
+}
+
+/* ── CONTACT ── */
+.contact-section {
+    padding: 4.50vw 3.75vw 4.50vw;
+    margin-top: -10vw; /* Puxa o footer agressivamente para cima contra o vídeo */
+    text-align: center;
+    position: relative;
+    color: #fff;
+    mix-blend-mode: difference;
+    z-index: 5;
+}
+
+.contact-title {
+    font-size: clamp(1.68rem, 5.15vw, 5.15rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    margin-bottom: 1.5rem;
+    line-height: 1.0;
+}
+
+.contact-subtitle {
+    font-size: clamp(1.80rem, 3.76vw, 3.00rem);
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
+    line-height: 1.4;
+}
+
+.contact-pills {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+}
+
+.pill {
+    background: transparent;
+    border: 1.50px solid #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 75px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: clamp(0.64rem, 1.35vw, 0.98rem);
+    letter-spacing: -0.02em;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.pill:hover {
+    background: #fff;
+    color: #000 !important;
+    mix-blend-mode: normal !important;
+}
+
+/* ── Modal ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(248, 248, 247, 0.95);
+    backdrop-filter: blur(12px);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2.8rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: 300;
+    z-index: 10001;
+    line-height: 1;
+}
+
+#modal-image {
+    max-width: 69vw;
+    max-height: 66vh;
+    object-fit: contain;
+    border-radius: 10.50px;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: scale(0.92);
+}
+
+.modal-overlay.active #modal-image { transform: scale(1); }
+/* ── Project Viewer ── */
+#projectViewer {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    cursor: auto; /* show default cursor here */
+}
+
+#projectViewer.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.pv-header {
+    position: sticky;
+    top: 0;
+    padding: 2.5rem 4.50vw;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 10;
+}
+
+.pv-title-box {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border: 1.50px solid #000;
+    border-radius: 75px;
+    padding: 0.6rem 0.6rem 0.6rem 2rem;
+    width: fit-content;
+}
+
+.pv-title-box h2 {
+    font-size: clamp(0.90rem, 2.25vw, 1.65rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-transform: lowercase;
+}
+
+.pv-back {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.pv-back:hover { transform: scale(1.08); }
+.pv-back svg { width: 1.8rem; height: 1.8rem; }
+
+.pv-content {
+    max-width: 975px;
+    margin: 0 auto;
+    padding: 4rem 4.50vw;
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+}
+
+.pv-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.pv-row.reverse { direction: rtl; }
+.pv-row.reverse > * { direction: ltr; }
+
+.pv-img-wrap {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 7.50px 30px rgba(0,0,0,0.06);
+}
+
+.pv-img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.pv-text {
+    max-width: 360px;
+}
+
+.pv-text h3 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.pv-text p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #333;
+    font-weight: 400;
+}
+
+.pv-footer {
+    padding: 6rem 0 10rem;
+    display: flex;
+    justify-content: center;
+}
+
+.pv-back-large {
+    background: transparent;
+    border: 1.50px solid #000;
+    padding: 1.2rem 4rem;
+    border-radius: 75px;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    text-transform: lowercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pv-back-large:hover {
+    background: #000;
+    color: #fff;
+    transform: translateY(-4px);
+}
+
+@media (max-width: 675px) {
+    .pv-row { grid-template-columns: 1fr; gap: 2rem; }
+    .pv-text h3 { font-size: 2rem; }
+    .pv-text p { font-size: 1.1rem; }
+}
+
+/* ── MÁQUINA DE ESCREVER ── */
+.typewriter-char {
+    position: relative;
+    display: inline;
+}
+
+#typing-cursor {
+    display: inline-block;
+    color: var(--text-color);
+    font-weight: 300;
+    margin-left: 1.50px;
+    margin-right: -7.50px; /* Evita quebra de linha indesejada */
+    vertical-align: bottom;
+    animation: type-blink 0.8s step-end infinite;
+}
+
+@keyframes type-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Disabling custom cursor on touch screens */
+@media (pointer: coarse) {
+    #custom-cursor, #cursor-dot {
+        display: none !important;
+    }
+    body {
+        cursor: auto !important;
+    }
+}
+
+/* ── Mobile ── */
+@media (max-width: 576px) {
+    /* Ajustando o respiro das sessões usando vh (altura) em vez de vw (largura), 
+       pois vw no celular fica muito pequeno e gruda tudo */
+    /* Aumentando bastante o espaço entre a 2ª (intro) e 3ª (works) */
+    .intro-section { padding: 12vh 6vw 25vh; }
+    .works-section { padding: 15vh 0 0; min-height: 105vh; }
+    .works-header { margin-bottom: 8vh; }
+    
+    /* Reduzindo drasticamente o espaço entre a 3ª (works) e 4ª (social) */
+    .social-section { min-height: 90vh; }
+    
+    .video-section { padding: 10vh 5vw; }
+    .works-section + .video-section { margin-top: -10vh; margin-bottom: 10vh; }
+    .video-section .works-header { margin-bottom: 6vh; }
+    
+    .contact-section { padding: 10vh 5vw 10vh; margin-top: -15vh; }
+
+    /* Ajuste de fontes muito grandes que quebram a tela */
+    .hero-title { font-size: clamp(2.5rem, 15vw, 6rem); }
+    .intro-text { font-size: clamp(1.2rem, 6vw, 3rem); }
+    .work-title { font-size: clamp(2rem, 12vw, 5rem); }
+    .social-title { font-size: clamp(2.5rem, 15vw, 5rem); }
+    
+    /* Garante que o usuário consiga ler o texto central sem ser muito tapado */
+    .works-text-stack { z-index: 5; }
+    .social-header { z-index: 5; }
+    
+    /* As imagens continuam absolutas (caóticas) graças as % originais, 
+       apenas damos um min-width para elas não ficarem invisíveis */
+    .scatter-thumb { min-width: 90px; }
+    .collage-card { min-width: 90px; }
+}
+/* ── GLITCH EFFECT ── */
+.glitch-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.hero-title.glitch {
+    position: relative;
+    color: #fff;
+    mix-blend-mode: difference;
+}
+
+.hero-title.glitch span {
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title.glitch::before,
+.hero-title.glitch::after {
+    display: block;
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    clip: rect(0, 0, 0, 0);
+    z-index: -1;
+}
+
+.hero-title.glitch::before {
+    left: -2px;
+    text-shadow: 2px 0 #00f;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.hero-title.glitch::after {
+    left: 2px;
+    text-shadow: -2px 0 #f00;
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+/* Background scanning line effect */
+.glitch-scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 99;
+    animation: bg-move 2s linear infinite;
+    background-size: 100% 8px;
+    background-image: linear-gradient(0, rgba(255,255,255,.05) 10%, transparent 10%, transparent 50%, rgba(255,255,255,.05) 50%, rgba(255,255,255,.05) 60%, transparent 60%, transparent);
+    opacity: 0.3;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip: rect(20px, 9999px, 15px, 0); }
+    5% { clip: rect(70px, 9999px, 85px, 0); }
+    10% { clip: rect(40px, 9999px, 35px, 0); }
+    15% { clip: rect(10px, 9999px, 90px, 0); }
+    20% { clip: rect(60px, 9999px, 10px, 0); }
+    25% { clip: rect(85px, 9999px, 40px, 0); }
+    30% { clip: rect(30px, 9999px, 70px, 0); }
+    35% { clip: rect(15px, 9999px, 20px, 0); }
+    40% { clip: rect(50px, 9999px, 55px, 0); }
+    45% { clip: rect(90px, 9999px, 30px, 0); }
+    50% { clip: rect(25px, 9999px, 65px, 0); }
+    55% { clip: rect(45px, 9999px, 15px, 0); }
+    60% { clip: rect(80px, 9999px, 50px, 0); }
+    65% { clip: rect(10px, 9999px, 90px, 0); }
+    70% { clip: rect(55px, 9999px, 25px, 0); }
+    75% { clip: rect(35px, 9999px, 75px, 0); }
+    80% { clip: rect(15px, 9999px, 45px, 0); }
+    85% { clip: rect(65px, 9999px, 10px, 0); }
+    90% { clip: rect(40px, 9999px, 80px, 0); }
+    95% { clip: rect(75px, 9999px, 35px, 0); }
+    100% { clip: rect(20px, 9999px, 60px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(85px, 9999px, 90px, 0); }
+    5% { clip: rect(15px, 9999px, 25px, 0); }
+    10% { clip: rect(65px, 9999px, 10px, 0); }
+    15% { clip: rect(30px, 9999px, 40px, 0); }
+    20% { clip: rect(75px, 9999px, 85px, 0); }
+    25% { clip: rect(10px, 9999px, 50px, 0); }
+    30% { clip: rect(45px, 9999px, 20px, 0); }
+    35% { clip: rect(90px, 9999px, 35px, 0); }
+    40% { clip: rect(25px, 9999px, 60px, 0); }
+    45% { clip: rect(55px, 9999px, 15px, 0); }
+    50% { clip: rect(10px, 9999px, 90px, 0); }
+    55% { clip: rect(80px, 9999px, 40px, 0); }
+    60% { clip: rect(40px, 9999px, 75px, 0); }
+    65% { clip: rect(20px, 9999px, 30px, 0); }
+    70% { clip: rect(60px, 9999px, 55px, 0); }
+    75% { clip: rect(35px, 9999px, 10px, 0); }
+    80% { clip: rect(70px, 9999px, 80px, 0); }
+    85% { clip: rect(15px, 9999px, 45px, 0); }
+    90% { clip: rect(90px, 9999px, 25px, 0); }
+    95% { clip: rect(50px, 9999px, 65px, 0); }
+    100% { clip: rect(25px, 9999px, 15px, 0); }
+}
+
+@keyframes bg-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 -32px; }
+}
+
+@keyframes hero-glitch-shake {
+    0% { transform: translate(0,0) skew(0deg); }
+    2% { transform: translate(2px, 1px) skew(5deg); }
+    4% { transform: translate(-1px, -2px) skew(-3deg); }
+    6% { transform: translate(0,0) skew(0deg); }
+    100% { transform: translate(0,0) skew(0deg); }
+}
+
+.hero-title.glitch {
+    animation: hero-glitch-shake 4s infinite;
+}
+@keyframes is-off {
+  0% { opacity: 1; }
+  50% { opacity: 1; }
+  56% { opacity: 0; }
+  57% { opacity: 0; }
+  58% { opacity: 1; }
+  71% { transform: scaleY(1) skewX(0deg); }
+  72% { transform: scaleY(3) skewX(-60deg); }
+  73% { transform: scaleY(1) skewX(0deg); }
+  80% { opacity: 1; }
+  81% { opacity: 0; }
+  84% { opacity: 0; }
+  85% { opacity: 1; }
+  91% { transform: scaleX(1) scaleY(1) skewX(0deg); color: #fff; }
+  92% { transform: scaleX(1.5) scaleY(.2) skewX(80deg); color: #0f0; }
+  93% { transform: scaleX(1) scaleY(1) skewX(0deg); color: #fff; }
+}
+
+.hero-title.is-off {
+    animation: is-off 2s linear infinite !important;
+}
+/* ── VHS GLITCH BACKGROUND (WALLPAPER) ── */
+:root {
+    --vhs-dark: #270245;
+    --vhs-light: #fd5d8d;
+    --vhs-white: #fff;
+    --vhs-blue: #2b52ff;
+}
+
+.vhs-wallpaper {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    overflow: hidden;
+    background: var(--vhs-blue);
+}
+
+/* Global Vignette Overlay */
+.vhs-vignette {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,.4) 100%);
+    z-index: 9999;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+}
+
+.noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 400;
+    opacity: .8;
+    pointer-events: none;
+}
+
+.noise:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://ice-creme.de/images/background-noise.png');
+    pointer-events: none;
+}
+
+.noise-moving {
+    opacity: 1;
+    z-index: 450;
+}
+
+.noise-moving:before {
+    will-change: background-position;
+    animation: noise-anim 1s infinite alternate;
+}
+
+.scanlines {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 300;
+    opacity: .6;
+    will-change: opacity;
+    animation: opacity-anim 3s linear infinite;
+}
+
+.scanlines:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .5) 51%);
+    background-size: 100% 4px;
+    will-change: background, background-size;
+    animation: scanlines-anim .2s linear infinite;
+}
+
+.intro-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-family: 'Press Start 2P', cursive;
+    color: var(--vhs-white);
+    font-size: clamp(0.8rem, 2vw, 1.5rem);
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 10001;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    color: #fff !important;
+}
+
+.intro-wrap .noise:before {
+    background-size: 200%;
+}
+
+.intro-wrap .play,
+.intro-wrap .time {
+    pointer-events: auto;
+    text-decoration: none;
+    color: #fff !important;
+    mix-blend-mode: difference;
+    z-index: 1001;
+}
+
+.intro-wrap .play {
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+}
+
+.intro-wrap .play .char {
+    /* Efeito de escrita removido */
+}
+
+.intro-wrap .time {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+}
+
+.intro-wrap .recordSpeed {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    font-size: clamp(0.6rem, 1.5vw, 1.2rem);
+    mix-blend-mode: difference;
+    color: #fff !important;
+}
+
+/* Animations */
+@keyframes noise-anim {
+    0%, 100% {background-position: 0 0;}
+    10% {background-position: -5% -10%;}
+    20% {background-position: -15% 5%;}
+    30% {background-position: 7% -25%;}
+    40% {background-position: 20% 25%;}
+    50% {background-position: -25% 10%;}
+    60% {background-position: 15% 5%;}
+    70% {background-position: 0 15%;}
+    80% {background-position: 25% 35%;}
+    90% {background-position: -10% 10%;}
+}
+
+@keyframes opacity-anim {
+    0% {opacity: .6;}
+    20% {opacity:.3;}
+    35% {opacity:.5;}
+    50% {opacity:.8;}
+    60% {opacity:.4;}
+    80% {opacity:.7;}
+    100% {opacity:.6;}
+}
+
+@keyframes scanlines-anim {
+    from {
+        background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .5) 51%);
+        background-size: 100% 4px;
+    }
+    to {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, .5) 50%, transparent 51%);
+        background-size: 100% 4px;
+    }
+}
+
+@keyframes rgbText {
+    0% {
+        text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), 0px 0 1px rgba(251, 0, 231, 0.8), 0 0px 3px rgba(0, 233, 235, 0.8), 0px 0 3px rgba(0, 242, 14, 0.8), 0 0px 3px rgba(244, 45, 0, 0.8), 0px 0 3px rgba(59, 0, 226, 0.8);
+    }
+    25% {
+        text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), 0px 0 1px rgba(251, 0, 231, 0.8), 0 0px 3px rgba(0, 233, 235, 0.8), 0px 0 3px rgba(0, 242, 14, 0.8), 0 0px 3px rgba(244, 45, 0, 0.8), 0px 0 3px rgba(59, 0, 226, 0.8);
+    }
+    45% {
+        text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), 5px 0 1px rgba(251, 0, 231, 0.8), 0 5px 1px rgba(0, 233, 235, 0.8), -5px 0 1px rgba(0, 242, 14, 0.8), 0 -5px 1px rgba(244, 45, 0, 0.8), 5px 0 1px rgba(59, 0, 226, 0.8);
+    }
+    50% {
+        text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), -5px 0 1px rgba(251, 0, 231, 0.8), 0 -5px 1px rgba(0, 233, 235, 0.8), 5px 0 1px rgba(0, 242, 14, 0.8), 0 5px 1px rgba(244, 45, 0, 0.8), -5px 0 1px rgba(59, 0, 226, 0.8);
+    }
+    55% {
+        text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), 0px 0 3px rgba(251, 0, 231, 0.8), 0 0px 3px rgba(0, 233, 235, 0.8), 0px 0 3px rgba(0, 242, 14, 0.8), 0 0px 3px rgba(244, 45, 0, 0.8), 0px 0 3px rgba(59, 0, 226, 0.8);
+    }
+    90% {
+        text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), -5px 0 1px rgba(251, 0, 231, 0.8), 0 5px 1px rgba(0, 233, 235, 0.8), 5px 0 1px rgba(0, 242, 14, 0.8), 0 -5px 1px rgba(244, 45, 0, 0.8), 5px 0 1px rgba(59, 0, 226, 0.8);
+    }
+    100% {
+        text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.6), 1px -1px 8px rgba(255, 255, 235, 0.7), 5px 0 1px rgba(251, 0, 231, 0.8), 0 -5px 1px rgba(0, 233, 235, 0.8), -5px 0 1px rgba(0, 242, 14, 0.8), 0 5px 1px rgba(244, 45, 0, 0.8), -5px 0 1px rgba(59, 0, 226, 0.8);
+    }
+}
+
+@keyframes type-anim {
+    0%, 19% {opacity:0;}
+    20%, 100% {opacity:1;}
+}
+
+/* Ensure existing content is visible over the background */
+main {
+    position: relative;
+    background: transparent;
+}
+
+.intro-wrap .play,
+.intro-wrap .time {
+    mix-blend-mode: difference;
+    color: #fff !important;
+}
+
+/* ── VHS TOGGLE BUTTON ── */
+.vhs-toggle-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    z-index: 10002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    mix-blend-mode: difference;
+}
+
+.vhs-toggle-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+}
+
+.vhs-toggle-btn svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* ── MINIMAL MODE OVERRIDES ── */
+body.minimal-mode {
+    background-color: #F8F8F7 !important;
+}
+
+body.minimal-mode .vhs-wallpaper,
+body.minimal-mode .glitch-scanline,
+body.minimal-mode .vhs-vignette {
+    display: none !important;
+}
+
+body.minimal-mode .hero-text-container,
+body.minimal-mode .intro-text,
+body.minimal-mode .works-header,
+body.minimal-mode .works-text-stack,
+body.minimal-mode .social-header,
+body.minimal-mode .contact-section,
+body.minimal-mode .pill,
+body.minimal-mode .work-title,
+body.minimal-mode .social-description,
+body.minimal-mode .hero-subtitle,
+body.minimal-mode .interaction-hint,
+body.minimal-mode .blur-highlight,
+body.minimal-mode .blur-highlight::before {
+    color: #000 !important;
+    mix-blend-mode: normal !important;
+}
+
+body.minimal-mode .microcopy {
+    color: #fff !important;
+    mix-blend-mode: difference !important;
+    font-size: 0.81rem !important; /* 25% menor */
+}
+
+body.minimal-mode .hero-title.glitch::before,
+body.minimal-mode .hero-title.glitch::after {
+    display: block !important;
+    mix-blend-mode: normal !important;
+    background: transparent !important;
+}
+
+body.minimal-mode .hero-title.glitch {
+    color: #000 !important;
+    mix-blend-mode: normal !important;
+}
+
+body.minimal-mode .intro-wrap {
+    font-family: 'Inter', -apple-system, sans-serif !important;
+    font-weight: 700;
+    font-size: clamp(0.6rem, 1.5vw, 1.12rem) !important;
+    mix-blend-mode: difference !important;
+    color: #fff !important;
+}
+
+body.minimal-mode .intro-wrap .play,
+body.minimal-mode .intro-wrap .time,
+body.minimal-mode .intro-wrap .recordSpeed {
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+body.minimal-mode .pill {
+    border-color: #000 !important;
+    mix-blend-mode: normal !important;
+    color: #000 !important;
+}
+
+body.minimal-mode .pill:hover {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+body.minimal-mode .vhs-toggle-btn {
+    background: #000;
+    color: #fff;
+    mix-blend-mode: normal;
+}
+/* ── MOBILE OPTIMIZATIONS ── */
+@media (max-width: 768px) {
+    /* Esconder links do topo no mobile */
+    .intro-wrap {
+        display: none !important;
+    }
+
+    /* Esconder microcoppys no mobile */
+    .microcopy {
+        display: none !important;
+    }
+}
+/* ── SCROLL INDICATOR ── */
+.scroll-indicator {
+    position: absolute;
+    bottom: 14.5rem; /* Subiu um pouco */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    mix-blend-mode: difference;
+    color: #FFD700 !important; /* Amarelo */
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    z-index: 1000;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+}
+
+.scroll-indicator svg {
+    width: 56px; /* Aumentado em 25% */
+    height: 56px;
+    animation: scroll-bounce 2s infinite;
+}
+
+@keyframes scroll-bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* Esconder ao scrollar */
+body.scrolled-past-header .scroll-indicator {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+}
+
+body.minimal-mode .scroll-indicator {
+    /* Mantém o blend mode pois o usuário pediu nos dois modos */
+}
