@@ -21,6 +21,35 @@ body {
 }
 
 /* ── Custom Cursor ── */
+/* ── CUSTOM SCROLLBAR ── */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2b52ff; /* Cor do fundo VHS */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FFD700; /* Amarelo VHS */
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #e6c200;
+}
+
+/* Scrollbar no Modo Claro */
+body.minimal-mode::-webkit-scrollbar-track,
+.minimal-mode ::-webkit-scrollbar-track {
+    background: #F8F8F7;
+}
+
+body.minimal-mode::-webkit-scrollbar-thumb,
+.minimal-mode ::-webkit-scrollbar-thumb {
+    background: #000;
+}
+
 .cursor {
     position: fixed;
     top: 0;
