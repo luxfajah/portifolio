@@ -216,12 +216,12 @@ main {
     position: fixed;
     top: auto;
     bottom: 12rem;
-    right: 6.5rem; /* Puxado para a esquerda */
+    right: 8rem; /* Puxado mais para a esquerda no modo escuro */
     left: auto;
-    width: clamp(175px, 15vw, 225px); /* Aumentado em 25% */
+    width: clamp(175px, 15vw, 225px);
     text-align: right;
     z-index: 10001;
-    color: #fff !important; /* Cor Branca */
+    color: #fff !important;
 }
 
 .toggle-hint .hint-text {
@@ -230,11 +230,11 @@ main {
 
 .toggle-hint .hint-arrow {
     left: auto;
-    right: -1rem;
-    top: 100%;
-    transform: rotate(60deg) scaleY(-1);
-    width: 45px;
-    height: 45px;
+    right: -4rem;
+    top: 2rem; /* Mais descida no modo escuro */
+    transform: rotate(10deg);
+    width: 50px;
+    height: 50px;
 }
 
 /* ── INTRO ── */
@@ -1236,6 +1236,11 @@ body.minimal-mode .toggle-hint {
     display: block !important;
     color: #000 !important;
     mix-blend-mode: normal !important;
+    right: 6.5rem !important; /* Posição original no modo claro */
+}
+
+body.minimal-mode .toggle-hint .hint-arrow {
+    top: 0.5rem !important; /* Posição original no modo claro */
 }
 
 body.minimal-mode .microcopy {
@@ -1245,15 +1250,16 @@ body.minimal-mode .microcopy {
 }
 
 body.minimal-mode .hero-title.glitch::before,
-body.minimal-mode .hero-title.glitch::after {
-    display: block !important;
-    mix-blend-mode: normal !important;
-    background: transparent !important;
+body.minimal-mode .hero-title.glitch::after,
+body.minimal-mode .glitch-scanline {
+    display: none !important;
 }
 
 body.minimal-mode .hero-title.glitch {
     color: #000 !important;
     mix-blend-mode: normal !important;
+    animation: none !important;
+    text-shadow: none !important;
 }
 
 body.minimal-mode .intro-wrap {

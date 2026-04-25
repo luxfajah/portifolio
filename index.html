@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css" />
     <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
 </head>
-<body>
+<body class="minimal-mode">
 
     <!-- Custom Cursor -->
     <div class="cursor" id="custom-cursor">
@@ -234,16 +234,17 @@
 
     <!-- Interaction Hint for Toggle -->
     <div class="interaction-hint toggle-hint">
-        <div class="hint-text">Se o wallpaper estiver muito forte, você pode desativar aqui.</div>
+        <div class="hint-text">Ative para ver o caos.</div>
         <div class="hint-arrow">
-            <svg viewBox="0 0 55 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 5C15 15 30 35 45 40M45 40L35 42M45 40L42 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Seta em L curva apontando para baixo -->
+                <path d="M5 10C25 10 40 15 40 35M40 35L33 30M40 35L47 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
     </div>
 
     <!-- VHS Toggle Button -->
-    <button id="vhs-toggle" class="vhs-toggle-btn" title="Desligar Wallpaper">
+    <button id="vhs-toggle" class="vhs-toggle-btn" title="Ligar Wallpaper">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2V6M12 18V22M6 12H2M22 12H18M19.07 4.93L16.24 7.76M7.76 16.24L4.93 19.07M19.07 19.07L16.24 16.24M7.76 7.76L4.93 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>

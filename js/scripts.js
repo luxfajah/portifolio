@@ -428,11 +428,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (toggleHintText) {
                 if (document.body.classList.contains('minimal-mode')) {
                     toggleHintText.textContent = 'Ative para ver o caos.';
+                    localStorage.setItem('vhs_minimal_mode', 'true');
                 } else {
                     toggleHintText.textContent = 'Se o wallpaper estiver muito forte, você pode desativar aqui.';
+                    localStorage.setItem('vhs_minimal_mode', 'false');
                 }
             }
-            // ──────────────────────────────────────────────────
+        });
+    }
+
+    // Inicializar estado salvo
+    if (localStorage.getItem('vhs_minimal_mode') === 'false') {
+        document.body.classList.remove('minimal-mode');
+        const vhsToggle = document.getElementById('vhs-toggle');
+        if (vhsToggle) vhsToggle.setAttribute('title', 'Desligar Wallpaper');
+        const toggleHintText = document.querySelector('.toggle-hint .hint-text');
+        if (toggleHintText) toggleHintText.textContent = 'Se o wallpaper estiver muito forte, você pode desativar aqui.';
+    }
     // 9. MOBILE SCROLL DETECTION
     // ──────────────────────────────────────────────────
     window.addEventListener('scroll', () => {
