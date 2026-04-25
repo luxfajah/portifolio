@@ -473,5 +473,3 @@ document.addEventListener('DOMContentLoaded', () => {
         counterEl.textContent = formatted;
     }
 });
-    }
-});
