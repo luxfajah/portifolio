@@ -5,40 +5,70 @@ document.addEventListener('DOMContentLoaded', () => {
     const loaderWrapper = document.getElementById('loader-wrapper');
     const loaderBar = document.getElementById('loader-bar');
     const loaderPercentage = document.getElementById('loader-percentage');
-    let progress = 0;
-    const minLoadingTime = 3000; // 3 segundos mínimo
-    const startTime = Date.now();
 
-    const updateLoader = () => {
-        const timePassed = Date.now() - startTime;
-        const timeProgress = (timePassed / minLoadingTime) * 100;
+    // Sincronizar tema do loader IMEDIATAMENTE
+    const savedMinimal = localStorage.getItem('vhs_minimal_mode');
+    if (savedMinimal === 'false') {
+        if (loaderWrapper) loaderWrapper.classList.add('vhs-loader');
+        document.body.classList.remove('minimal-mode');
+        // Sincronizar UI de botões se já existirem
+        const vhsToggleInit = document.getElementById('vhs-toggle');
+        if (vhsToggleInit) vhsToggleInit.setAttribute('title', 'Desligar Wallpaper');
+        const toggleHintInit = document.querySelector('.toggle-hint .hint-text');
+        if (toggleHintInit) toggleHintInit.textContent = 'Se o wallpaper estiver muito forte, você pode desativar aqui.';
+    }
+    const triggerLoader = (duration, callback) => {
+        if (!loaderWrapper) return;
         
-        // Simulação de progresso (metade tempo, metade carga real se possível, mas aqui simulamos suave)
-        progress = Math.min(timeProgress, 100);
+        let localProgress = 0;
+        const localStartTime = Date.now();
         
-        if (loaderBar) loaderBar.style.width = `${progress}%`;
-        if (loaderPercentage) loaderPercentage.textContent = `${Math.floor(progress)}%`;
-
-        if (progress < 100) {
-            requestAnimationFrame(updateLoader);
-        } else {
-            // Garantir que carregou tudo e deu o tempo mínimo
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    loaderWrapper.classList.add('fade-out');
-                }, 200);
-            });
-            // Caso já tenha carregado antes do tempo
-            if (document.readyState === 'complete') {
-                setTimeout(() => {
-                    loaderWrapper.classList.add('fade-out');
-                }, 200);
-            }
+        // Reset bar and text before showing
+        if (loaderBar) loaderBar.style.width = '0%';
+        if (loaderPercentage) {
+            loaderPercentage.textContent = '0%';
+            loaderPercentage.setAttribute('data-text', '0%');
         }
+
+        loaderWrapper.classList.remove('fade-out');
+        
+        const update = () => {
+            const timePassed = Date.now() - localStartTime;
+            localProgress = Math.min((timePassed / duration) * 100, 100);
+            
+            if (loaderBar) loaderBar.style.width = `${localProgress}%`;
+            if (loaderPercentage) {
+                const pct = `${Math.floor(localProgress)}%`;
+                loaderPercentage.textContent = pct;
+                loaderPercentage.setAttribute('data-text', pct);
+            }
+            
+            if (localProgress < 100) {
+                requestAnimationFrame(update);
+            } else {
+                if (callback) callback();
+                
+                // Aguarda um pouco antes de sumir
+                setTimeout(() => {
+                    loaderWrapper.classList.add('fade-out');
+                }, 400);
+            }
+        };
+        
+        requestAnimationFrame(update);
     };
 
     if (loaderWrapper) {
-        requestAnimationFrame(updateLoader);
+        // Carregamento inicial (espera o load do window se necessário)
+        const initialDuration = 3000;
+        const onInitialComplete = () => {
+            if (document.readyState !== 'complete') {
+                window.addEventListener('load', () => {
+                    // Já completou os 100%, então só garante que sumiu
+                }, { once: true });
+            }
+        };
+        triggerLoader(initialDuration, onInitialComplete);
     }
 
     // Initialize Splitting for VHS text effects
@@ -298,69 +328,121 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. PROJECT VIEWER LOGIC
     // ──────────────────────────────────────────────────
     const projectData = {
-        'rebeldia': {
-            title: 'Rebeldia Visual',
+        'transcender': {
+            title: 'Transcender',
+            subtitle: 'Identidade Visual · Grupo Terapêutico',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=800' },
-                { type: 'text', title: 'A quebra do padrão', text: 'Este projeto explora a desconstrução de grades rígidas em favor de um sistema fluido e imprevisível. Não buscamos a perfeição, mas a expressão bruta da marca.' },
-                { type: 'img', src: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800', reverse: true },
-                { type: 'text', title: 'O caos intencional', text: 'Cada distorção é planejada para atrair o olhar e desafiar a neutralidade corporativa padrão.' }
+                { type: 'img', src: 'images/projects/Transcender.png' },
+                { type: 'text', title: 'Grupo Terapêutico Transcentrado', text: 'Desenvolvimento da identidade visual para o Transcender, um grupo terapêutico inovador idealizado pela premiada psicóloga Jussara Prado.' },
+                { type: 'img', src: 'images/projects/Transcender-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800' },
+                { type: 'text', title: 'Foco na Comunidade', text: 'O projeto tem como núcleo o atendimento especializado para pessoas da comunidade LGBT+ e indivíduos neurodivergentes, garantindo um ambiente de total acolhimento.' },
+                { type: 'img', src: 'images/projects/Transcender-3.png', fallback: 'https://images.unsplash.com/photo-1544027993-37dbfe43562a?q=80&w=800' },
+                { type: 'text', title: 'Pioneirismo', text: 'O grupo faz parte da Clínica Autêntica, reconhecida como a primeira clínica totalmente transcentrada e com abordagem multidisciplinar do Brasil.' },
+                { type: 'full-img', src: 'images/projects/Transcender-full.png', fallback: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1600' }
             ]
         },
-        'estrutura': {
-            title: 'Estrutura & Caos',
+        'djdope': {
+            title: 'DJ Dope',
+            subtitle: 'Identidade Visual · Música Eletrônica',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800' },
-                { type: 'text', title: 'Fundação sólida', text: 'Um sistema de design que suporta o crescimento sem perder sua essência experimental. Estrutura não precisa ser chata.' }
+                { type: 'img', src: 'images/projects/Dope.png' },
+                { type: 'text', title: 'A Essência de Ouro Preto', text: 'Identidade visual para o DJ Dope, músico mineiro com raízes fortes na cena eletrônica e no funk, diretamente de Ouro Preto.' },
+                { type: 'img', src: 'images/projects/Dope-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800' },
+                { type: 'text', title: 'Estética Dope', text: 'A estética visual acompanha o estilo musical único, mesclando a crueza urbana, ruídos visuais com a energia crua das pistas de dança.' },
+                { type: 'img', src: 'images/projects/Dope-3.png', fallback: 'https://images.unsplash.com/photo-1470229722913-7c090be5c5a8?q=80&w=800' },
+                { type: 'text', title: 'Identidade e Pôsteres', text: 'O projeto inclui pôsteres promocionais, tipografia agressiva e layouts que capturam a essência vibrante de seus sets.' },
+                { type: 'full-img', src: 'images/projects/Dope-full.png', fallback: 'https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1600' }
             ]
         },
-        'elevacao': {
-            title: 'Elevação de Marca',
+        'dragabriela': {
+            title: 'Dra. Gabriela Saueressig',
+            subtitle: 'Marca Pessoal · Medicina',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800' },
-                { type: 'text', title: 'Novo Patamar', text: 'Identidades que elevam o valor percebido através de escolhas tipográficas ousadas e paletas de cores magnéticas.' }
+                { type: 'img', src: 'images/projects/Dra. Gabriela.png' },
+                { type: 'text', title: 'Marca Pessoal', text: 'Identidade visual criada para a Dra. Gabriela Saueressig, médica cirurgiã e ginecologista de alta performance.' },
+                { type: 'img', src: 'images/projects/Dra. Gabriela-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800' },
+                { type: 'text', title: 'Ética e Técnica', text: 'A identidade equilibra perfeitamente a empatia humana no trato com as pacientes e a precisão cirúrgica impecável que a profissão exige.' },
+                { type: 'img', src: 'images/projects/Dra. Gabriela-3.png', fallback: 'https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800' },
+                { type: 'text', title: 'Você fala, o corpo responde', text: 'O resultado é uma comunicação ética, limpa e sofisticada, focada em transmitir confiança absoluta desde a primeira consulta.' },
+                { type: 'full-img', src: 'images/projects/Dra. Gabriela-full.png', fallback: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1600' }
             ]
         },
-        'distorcao': {
-            title: 'Distorção Estratégica',
+        'mixgrafica': {
+            title: 'Mix Gráfica',
+            subtitle: 'Identidade Visual · Rede de Gráficas',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800' },
-                { type: 'text', title: 'Realidade Expandida', text: 'Distorcer para revelar. Este projeto usa técnicas de manipulação visual para criar profundidade onde antes havia apenas superfície.' }
+                { type: 'img', src: 'images/projects/Mix.png' },
+                { type: 'text', title: 'Expansão no Nordeste', text: 'Mix Tecnologia e Gráfica atua como uma gigantesca rede de gráficas express distribuídas estrategicamente pelo nordeste do Brasil.' },
+                { type: 'img', src: 'images/projects/Mix-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=800' },
+                { type: 'text', title: 'Velocidade e Solidez', text: 'A identidade precisava comunicar velocidade absurda de entrega e confiança estrutural, pilares de uma operação de alta demanda.' },
+                { type: 'img', src: 'images/projects/Mix-3.png', fallback: 'https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=800' },
+                { type: 'text', title: 'Impacto Visual', text: 'A marca utiliza contrastes fortes, variando do brutalismo em preto e branco ao espectro RGB puro, simbolizando impressão física e digital.' },
+                { type: 'full-img', src: 'images/projects/Mix-full.png', fallback: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600' }
             ]
         },
-        'simetria': {
-            title: 'Simetria Quebrada',
+        'virtubarbearia': {
+            title: 'Virtu Barbearia',
+            subtitle: 'Branding · Barbearia',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=800' },
-                { type: 'text', title: 'Equilíbrio Dinâmico', text: 'O uso da simetria como base para criar tensões visuais interessantes e composições que parecem vivas.' }
+                { type: 'img', src: 'images/projects/virtu.png' },
+                { type: 'text', title: 'Pilares Cristãos', text: 'Virtu é muito mais que uma barbearia. É um espaço com fundamentação cristã, onde os pilares inegociáveis são a família, a tradição e Deus.' },
+                { type: 'img', src: 'images/projects/virtu-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800' },
+                { type: 'text', title: 'Resgate Clássico', text: 'O ambiente e a identidade visual resgatam os valores clássicos do ofício, criando um espaço seguro, de profundo respeito e fortalecimento da comunidade.' },
+                { type: 'img', src: 'images/projects/virtu-3.png', fallback: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=800' },
+                { type: 'text', title: 'Herança Visual', text: 'A comunicação utiliza tons sóbrios, materiais nobres e uma tipografia pesada e marcante para honrar a herança e os princípios inabaláveis do negócio.' },
+                { type: 'full-img', src: 'images/projects/virtu-full.png', fallback: 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=1600' }
             ]
         },
-        'fragmento': {
-            title: 'Fragmento de Identidade',
+        'gabrielly': {
+            title: 'Gabrielly Lima Psico',
+            subtitle: 'Identidade Visual · Psicologia',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800' },
-                { type: 'text', title: 'Partes do Todo', text: 'Identidades visuais que funcionam mesmo quando fragmentadas. Cada detalhe carrega o DNA da marca.' }
+                { type: 'img', src: 'images/projects/Gabrielly.png' },
+                { type: 'text', title: 'Atendimento Inclusivo', text: 'Identidade visual para Gabrielly Lima, psicóloga especializada no atendimento de pessoas da comunidade LGBT+ e indivíduos neurodivergentes.' },
+                { type: 'img', src: 'images/projects/Gabrielly-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800' },
+                { type: 'text', title: 'Fugindo do Clínico', text: 'O projeto quebra intencionalmente a estética fria das clínicas tradicionais, utilizando cores empáticas e ilustrações para gerar conforto.' },
+                { type: 'img', src: 'images/projects/Gabrielly-3.png', fallback: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800' },
+                { type: 'text', title: 'Relações Livres', text: 'Especializada em relações não-convencionais, a comunicação reflete abertura total, escuta ativa e um ambiente livre de amarras morais e julgamentos.' },
+                { type: 'full-img', src: 'images/projects/Gabrielly-full.png', fallback: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1600' }
             ]
         },
-        'tensao': {
-            title: 'Tensão Gráfica',
+        'lena': {
+            title: 'Lena Biojoias',
+            subtitle: 'Branding · Biojoias Artesanais',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=800' },
-                { type: 'text', title: 'O Limite da Forma', text: 'Explorando quanto uma forma pode ser esticada antes de perder seu significado original.' }
+                { type: 'img', src: 'images/projects/lena.png' },
+                { type: 'text', title: 'Produção Manual', text: 'Lena é uma marca de biojoias exclusivas de fabricação 100% manual, que exalta o trabalho artesanal e o design sustentável de alto luxo.' },
+                { type: 'img', src: 'images/projects/lena-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800' },
+                { type: 'text', title: 'Matéria-Prima Mineira', text: 'A base das peças envolve resina cristalina unida a matérias-primas cruas de Minas Gerais, como fragmentos de madeira, minério de ferro e rochas raras.' },
+                { type: 'img', src: 'images/projects/lena-3.png', fallback: 'https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800' },
+                { type: 'text', title: 'O Tecnológico e o Orgânico', text: 'O grande diferencial da marca está na fusão poética de lixo eletrônico descartado com a natureza intocada, criando uma estética retrofuturista.' },
+                { type: 'full-img', src: 'images/projects/lena-full.png', fallback: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1600' }
             ]
         },
-        'colapso': {
-            title: 'Colapso de Forma',
+        'lavapis': {
+            title: 'Lavapis',
+            subtitle: 'Identidade Visual · Plataforma de Serviços',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800' },
-                { type: 'text', title: 'Beleza no Erro', text: 'Transformando falhas técnicas em ativos estéticos. O erro como ferramenta criativa intencional.' }
+                { type: 'img', src: 'images/projects/lavapis.png' },
+                { type: 'text', title: 'Lavanderia por Assinatura', text: 'Lavapis é uma plataforma digital e inovadora de lavanderia por assinatura operando com serviços de delivery focados na cidade de Foz do Iguaçu.' },
+                { type: 'img', src: 'images/projects/lavapis-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=800' },
+                { type: 'text', title: 'Roupas Limpas, Vida Leve', text: 'O projeto gráfico foi desenvolvido para transmitir agilidade e tirar o peso da rotina doméstica. O slogan guia todo o direcionamento da marca.' },
+                { type: 'img', src: 'images/projects/lavapis-3.png', fallback: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800' },
+                { type: 'text', title: 'Design Fluido', text: 'Identidade fresca, utilizando tons de azul e gradientes fluidos para gerar a sensação imediata de limpeza, eficiência e praticidade.' },
+                { type: 'full-img', src: 'images/projects/lavapis-full.png', fallback: 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=1600' }
             ]
         },
-        'origem': {
-            title: 'Origem de Marca',
+        'respeita': {
+            title: 'Respeita Meu Nome',
+            subtitle: 'Direção de Arte · Direitos LGBT+',
             content: [
-                { type: 'img', src: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800' },
-                { type: 'text', title: 'DNA Criativo', text: 'Voltando às bases para construir algo inteiramente novo. Minimalismo com propósito e alma.' }
+                { type: 'img', src: 'images/projects/Respeita meu nome.png' },
+                { type: 'text', title: 'Plataforma de Direitos', text: 'Respeita Meu Nome atua como uma plataforma centralizada de defesa de direitos humanos, suporte jurídico e mobilização focada na população LGBT+.' },
+                { type: 'img', src: 'images/projects/respeita-2.png', reverse: true, fallback: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800' },
+                { type: 'text', title: 'Urgência e Empoderamento', text: 'Desenvolvimento de uma identidade visual contundente, que grita urgência e exige respeito através de formas robustas e diretas.' },
+                { type: 'img', src: 'images/projects/respeita-3.png', fallback: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800' },
+                { type: 'text', title: 'Ninguém Apaga Quem Você É', text: 'A direção de arte atua como uma armadura visual, usando cores vibrantes e layouts impactantes para blindar e empoderar identidades marginalizadas.' },
+                { type: 'full-img', src: 'images/projects/respeita-full.png', fallback: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1600' }
             ]
         }
     };
@@ -376,11 +458,26 @@ document.addEventListener('DOMContentLoaded', () => {
         pvTitle.textContent = data.title;
         pvContent.innerHTML = '';
 
+        // Bloco de título centralizado no topo do projeto
+        const heroBlock = document.createElement('div');
+        heroBlock.className = 'pv-hero-title';
+        heroBlock.innerHTML = `<h1>${data.title}</h1><p>${data.subtitle || ''}</p>`;
+        pvContent.appendChild(heroBlock);
+
         data.content.forEach(item => {
-            if (item.type === 'img') {
+            if (item.type === 'full-img') {
+                const fullRow = document.createElement('div');
+                fullRow.className = 'pv-full-img';
+                // Usando onerror fallback logic for placeholders se imagem não existir
+                const imgSrc = item.src;
+                const fallbackStr = item.fallback ? `onerror="this.src='${item.fallback}'"` : "";
+                fullRow.innerHTML = `<img src="${imgSrc}" ${fallbackStr} alt="Projeto Completo">`;
+                pvContent.appendChild(fullRow);
+            } else if (item.type === 'img') {
                 const row = document.createElement('div');
                 row.className = `pv-row ${item.reverse ? 'reverse' : ''}`;
-                row.innerHTML = `<div class="pv-img-wrap"><img src="${item.src}" alt="projeto"></div><div></div>`;
+                const fallbackStr = item.fallback ? `onerror="this.src='${item.fallback}'"` : "";
+                row.innerHTML = `<div class="pv-img-wrap"><img src="${item.src}" ${fallbackStr} alt="projeto"></div><div></div>`;
                 pvContent.appendChild(row);
             } else if (item.type === 'text') {
                 const row = document.createElement('div');
@@ -399,12 +496,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         pvViewer.classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        // Trocar "luxfajah.com" do header principal para botão de voltar
+        const playLink = document.querySelector('.intro-wrap .play');
+        if (playLink) {
+            playLink._originalText = playLink.textContent;
+            playLink._originalHref = playLink.getAttribute('href');
+            playLink.textContent = '← voltar';
+            playLink.setAttribute('href', '#');
+            playLink.onclick = (e) => { e.preventDefault(); closeProject(); };
+        }
     };
 
     window.closeProject = () => {
         const pvViewer = document.getElementById('projectViewer');
         pvViewer.classList.remove('open');
         document.body.style.overflow = '';
+
+        // Restaurar "luxfajah.com" no header principal
+        const playLink = document.querySelector('.intro-wrap .play');
+        if (playLink && playLink._originalText) {
+            playLink.textContent = playLink._originalText;
+            playLink.setAttribute('href', playLink._originalHref || '#');
+            playLink.onclick = null;
+        }
     };
 
     // ──────────────────────────────────────────────────
@@ -456,37 +571,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const vhsToggle = document.getElementById('vhs-toggle');
     if (vhsToggle) {
         vhsToggle.addEventListener('click', () => {
-            document.body.classList.toggle('minimal-mode');
-            
-            // Update title based on state
+            // Sincronizar o tema do loader IMEDIATAMENTE ao clicar para a transição ser correta
+            // Se estamos no minimal, vamos para o VHS, então o loader deve ser VHS
             if (document.body.classList.contains('minimal-mode')) {
-                vhsToggle.setAttribute('title', 'Ligar Wallpaper');
+                loaderWrapper.classList.add('vhs-loader');
             } else {
-                vhsToggle.setAttribute('title', 'Desligar Wallpaper');
+                loaderWrapper.classList.remove('vhs-loader');
             }
 
-            // Atualizar texto da dica do botão
-            const toggleHintText = document.querySelector('.toggle-hint .hint-text');
-            if (toggleHintText) {
+            // Duração menor para troca de tema (1.2s)
+            triggerLoader(1200, () => {
+                document.body.classList.toggle('minimal-mode');
+                
+                // Garantir sincronia final (redundante mas seguro)
                 if (document.body.classList.contains('minimal-mode')) {
-                    toggleHintText.textContent = 'Ative para ver o caos.';
-                    localStorage.setItem('vhs_minimal_mode', 'true');
+                    loaderWrapper.classList.remove('vhs-loader');
                 } else {
-                    toggleHintText.textContent = 'Se o wallpaper estiver muito forte, você pode desativar aqui.';
-                    localStorage.setItem('vhs_minimal_mode', 'false');
+                    loaderWrapper.classList.add('vhs-loader');
                 }
-            }
+
+                // Update title based on state
+                if (document.body.classList.contains('minimal-mode')) {
+                    vhsToggle.setAttribute('title', 'Ligar Wallpaper');
+                } else {
+                    vhsToggle.setAttribute('title', 'Desligar Wallpaper');
+                }
+
+                // Atualizar texto da dica do botão
+                const toggleHintText = document.querySelector('.toggle-hint .hint-text');
+                if (toggleHintText) {
+                    if (document.body.classList.contains('minimal-mode')) {
+                        toggleHintText.textContent = 'Ative para ver o caos.';
+                        localStorage.setItem('vhs_minimal_mode', 'true');
+                    } else {
+                        toggleHintText.textContent = 'Se o wallpaper estiver muito forte, você pode desativar aqui.';
+                        localStorage.setItem('vhs_minimal_mode', 'false');
+                    }
+                }
+            });
         });
     }
 
-    // Inicializar estado salvo
-    if (localStorage.getItem('vhs_minimal_mode') === 'false') {
-        document.body.classList.remove('minimal-mode');
-        const vhsToggle = document.getElementById('vhs-toggle');
-        if (vhsToggle) vhsToggle.setAttribute('title', 'Desligar Wallpaper');
-        const toggleHintText = document.querySelector('.toggle-hint .hint-text');
-        if (toggleHintText) toggleHintText.textContent = 'Se o wallpaper estiver muito forte, você pode desativar aqui.';
+    // ──────────────────────────────────────────────────
+    // 8.5 VIDEO SPEED LOGIC (2x Speed)
+    // ──────────────────────────────────────────────────
+    const manualVideo = document.getElementById('manual-video');
+    if (manualVideo) {
+        manualVideo.playbackRate = 2.0;
     }
+
     // 9. MOBILE SCROLL DETECTION
     // ──────────────────────────────────────────────────
     window.addEventListener('scroll', () => {
