@@ -422,6 +422,16 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 vhsToggle.setAttribute('title', 'Desligar Wallpaper');
             }
+
+            // Atualizar texto da dica do botão
+            const toggleHintText = document.querySelector('.toggle-hint .hint-text');
+            if (toggleHintText) {
+                if (document.body.classList.contains('minimal-mode')) {
+                    toggleHintText.textContent = 'Ative para ver o caos.';
+                } else {
+                    toggleHintText.textContent = 'Se o wallpaper estiver muito forte, você pode desativar aqui.';
+                }
+            }
             // ──────────────────────────────────────────────────
     // 9. MOBILE SCROLL DETECTION
     // ──────────────────────────────────────────────────
@@ -436,6 +446,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // ──────────────────────────────────────────────────
+    // 10. VISITOR COUNTER LOGIC (Simulated)
+    // ──────────────────────────────────────────────────
+    const counterEl = document.querySelector('.visitor-counter');
+    if (counterEl) {
+        let visits = localStorage.getItem('vhs_visits') || 0;
+        visits = parseInt(visits) + 1;
+        localStorage.setItem('vhs_visits', visits);
+        
+        // Formatar para 8 dígitos (0000000X)
+        const formatted = String(visits).padStart(8, '0');
+        counterEl.textContent = formatted;
+    }
 });
     }
 });

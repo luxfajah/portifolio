@@ -211,6 +211,32 @@ main {
     opacity: 0.7;
 }
 
+/* Toggle Hint Specific */
+.toggle-hint {
+    position: fixed;
+    top: auto;
+    bottom: 12rem;
+    right: 6.5rem; /* Puxado para a esquerda */
+    left: auto;
+    width: clamp(175px, 15vw, 225px); /* Aumentado em 25% */
+    text-align: right;
+    z-index: 10001;
+    color: #fff !important; /* Cor Branca */
+}
+
+.toggle-hint .hint-text {
+    font-size: clamp(1.4rem, 1.8vw, 2rem) !important; /* Aumentado */
+}
+
+.toggle-hint .hint-arrow {
+    left: auto;
+    right: -1rem;
+    top: 100%;
+    transform: rotate(60deg) scaleY(-1);
+    width: 45px;
+    height: 45px;
+}
+
 /* ── INTRO ── */
 .intro-section {
     padding: 9vw 4.50vw 9vw;
@@ -1052,13 +1078,21 @@ main {
     top: 2rem;
 }
 
-.intro-wrap .recordSpeed {
+.intro-wrap .recordSpeed,
+.intro-wrap .visitor-counter {
     position: absolute;
     bottom: 2rem;
-    left: 2rem;
     font-size: clamp(0.6rem, 1.5vw, 1.2rem);
     mix-blend-mode: difference;
-    color: #fff !important;
+    color: #FFD700 !important; /* Amarelo */
+}
+
+.intro-wrap .recordSpeed {
+    left: 2rem;
+}
+
+.intro-wrap .visitor-counter {
+    right: 2rem;
 }
 
 /* Animations */
@@ -1140,7 +1174,7 @@ main {
 /* ── VHS TOGGLE BUTTON ── */
 .vhs-toggle-btn {
     position: fixed;
-    bottom: 2rem;
+    bottom: 5.5rem;
     right: 2rem;
     width: 3.5rem;
     height: 3.5rem;
@@ -1188,9 +1222,18 @@ body.minimal-mode .pill,
 body.minimal-mode .work-title,
 body.minimal-mode .social-description,
 body.minimal-mode .hero-subtitle,
-body.minimal-mode .interaction-hint,
 body.minimal-mode .blur-highlight,
 body.minimal-mode .blur-highlight::before {
+    color: #000 !important;
+    mix-blend-mode: normal !important;
+}
+
+body.minimal-mode .interaction-hint {
+    display: none !important;
+}
+
+body.minimal-mode .toggle-hint {
+    display: block !important;
     color: #000 !important;
     mix-blend-mode: normal !important;
 }
@@ -1217,15 +1260,24 @@ body.minimal-mode .intro-wrap {
     font-family: 'Inter', -apple-system, sans-serif !important;
     font-weight: 700;
     font-size: clamp(0.6rem, 1.5vw, 1.12rem) !important;
-    mix-blend-mode: difference !important;
-    color: #fff !important;
+    mix-blend-mode: normal !important;
+    color: #2b52ff !important; /* Azul */
 }
 
 body.minimal-mode .intro-wrap .play,
 body.minimal-mode .intro-wrap .time,
-body.minimal-mode .intro-wrap .recordSpeed {
+body.minimal-mode .intro-wrap .recordSpeed,
+body.minimal-mode .intro-wrap .visitor-counter {
     animation: none !important;
     text-shadow: none !important;
+    color: #2b52ff !important;
+}
+
+body.minimal-mode .nav-pill,
+body.minimal-mode .social-icon,
+body.minimal-mode .credits .nav-pill {
+    color: #2b52ff !important;
+    mix-blend-mode: normal !important;
 }
 
 body.minimal-mode .pill {
@@ -1259,7 +1311,7 @@ body.minimal-mode .vhs-toggle-btn {
 /* ── SCROLL INDICATOR ── */
 .scroll-indicator {
     position: absolute;
-    bottom: 14.5rem; /* Subiu um pouco */
+    bottom: 11rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;

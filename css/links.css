@@ -12,8 +12,8 @@ body {
 }
 
 /* ── INVERSION EFFECT (GLOABAL LINKS PAGE) ── */
-/* Aplica em todos os textos fora dos boxes/cards */
-.profile-info *,
+/* Aplica em todos os textos fora dos boxes/cards e fora do glitch */
+.profile-subtitle,
 .links-intro > h2,
 .links-intro > p,
 .links-cta > h2,
@@ -24,6 +24,17 @@ body {
 .section-title-small {
     mix-blend-mode: difference;
     color: #ffffff !important;
+}
+
+/* Ajuste do Glitch no Header de Links */
+.links-header .hero-title {
+    font-size: 2.8rem !important; /* Tamanho similar ao anterior */
+    line-height: 0.85;
+    margin-bottom: 0.5rem;
+}
+
+.links-header .glitch-wrapper {
+    margin-bottom: 0.5rem;
 }
 
 /* Garante que dentro dos cards o blend mode seja normal */
@@ -46,11 +57,18 @@ body.minimal-mode .links-intro > p,
 body.minimal-mode .links-cta > h2,
 body.minimal-mode .links-cta > p,
 body.minimal-mode .useful-links > h2,
-body.minimal-mode .social-icon,
 body.minimal-mode .arrow-divider,
 body.minimal-mode .section-title-small {
     mix-blend-mode: normal !important;
     color: #000 !important;
+}
+
+body.minimal-mode .social-icon,
+body.minimal-mode .nav-pill,
+body.minimal-mode .intro-wrap .play,
+body.minimal-mode .intro-wrap .time {
+    color: #2b52ff !important;
+    mix-blend-mode: normal !important;
 }
 
 /* Esconder o cursor customizado do index se ele tentar aparecer */
